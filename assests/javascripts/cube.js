@@ -13,19 +13,19 @@ $(document).ready(function() {
         renderer = new THREE.CanvasRenderer();
     }
     console.log(renderer);
-    var three = THREE;
-    var scene = new three.Scene();
-    var camera = new three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
-    var geometry = new three.BoxGeometry(2, 2, 2);
-    // var material = new three.MeshNormalMaterial();
-    var material = new three.MeshBasicMaterial({
+    var geometry = new THREE.BoxGeometry(2, 2, 2);
+    // var material = new THREE.MeshNormalMaterial();
+    var material = new THREE.MeshBasicMaterial({
         color: 0xffffff
     });
     /* */
     /* */
-    var cube = new three.Mesh(geometry, material);
+    var cube = new THREE.Mesh(geometry, material);
     cube.rotation.x = Math.PI / 4;
     cube.rotation.y = Math.PI / 4;
     scene.add(cube);
@@ -45,7 +45,7 @@ $(document).ready(function() {
             y: e.offsetY - previousMousePosition.y
         };
         if (isDragging) {
-            var deltaRotationQuaternion = new three.Quaternion().setFromEuler(new three.Euler(toRadians(deltaMove.y * 1), toRadians(deltaMove.x * 1), 0, 'XYZ'));
+            var deltaRotationQuaternion = new THREE.Quaternion().setFromEuler(new THREE.Euler(toRadians(deltaMove.y * 1), toRadians(deltaMove.x * 1), 0, 'XYZ'));
             cube.quaternion.multiplyQuaternions(deltaRotationQuaternion, cube.quaternion);
         }
         previousMousePosition = {
