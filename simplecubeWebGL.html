@@ -8,7 +8,6 @@
         <script type="text/javascript" src="assests/javascripts/jquery-1.10.2.js"> </script>
         <script type="text/javascript" src="assests/javascripts/three.js">         </script>
         <script type="text/javascript" src="assests/javascripts/Projector.js">     </script>
-        <script type="text/javascript" src="assests/javascripts/CanvasRenderer.js">     </script>
         
         <script>
             function webglAvailable() {
@@ -28,7 +27,7 @@
             }
 
             var scene           = new THREE.Scene();
-            var renderer        = new THREE.CanvasRenderer();
+            var renderer        = new THREE.WebGLRenderer();
             var camera          = new THREE.PerspectiveCamera( 
                                         75, 
                                         window.innerWidth/window.innerHeight, 
@@ -50,7 +49,7 @@
                                         { color: 0xfffff, 
                                           wireframe: true });
             var cube            = new THREE.Mesh( geometry, material );
-            scene.add( cube );
+            scene.add(  cube    );
             camera.position.z   = 1000;
 
             function render() {
