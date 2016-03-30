@@ -1,64 +1,107 @@
 <html>
-    <head>
-        <title>
-            Three.js app using WebGLRenderer
-        </title>
-    </head>
-    <body>
-        <script type="text/javascript" src="assests/javascripts/jquery-1.10.2.js"> </script>
-        <script type="text/javascript" src="assests/javascripts/three.js">         </script>
-        <script type="text/javascript" src="assests/javascripts/Projector.js">     </script>
-        
-        <script>
-            function webglAvailable() {
-                try {
-                    var canvas = document.createElement( 'canvas' );
-                    return !!(
-                        window.WebGLRenderingContext 
-                        && 
-                            (canvas.getContext( 'webgl' ) 
-                                || 
-                            canvas.getContext( 'experimental-webgl' )
-                        ));
-                    } 
-                catch ( e ) {
-                    return false;
-                    }
-            }
 
-            var scene           = new THREE.Scene();
-            var renderer        = new THREE.WebGLRenderer();
-            var camera          = new THREE.PerspectiveCamera( 
-                                        75, 
-                                        window.innerWidth/window.innerHeight, 
-                                        1, 
-                                        10000 );
+<head>
+    <title>
+        Three.js app using WebGLRenderer
+    </title>
+</head>
 
-            renderer.setSize( window.innerWidth, window.innerHeight );
-            
-            document.body.appendChild( renderer.domElement );
+<body>
+    <script type="text/javascript" src="assests/javascripts/jquery-1.10.2.js">
+    </script>
+    <script type="text/javascript" src="assests/javascripts/three.js">
+    </script>
+    <script type="text/javascript" src="assests/javascripts/Projector.js">
+    </script>
+    <script>
+    var container, scene, camera, renderer, controls, stats;
+    // custom global variables
+    var targetList = [], size = 500;
+    var projector, mouse = {
+        x: 0,
+        y: 0
+    };
 
-            var geometry        = new THREE.BoxGeometry( 
-                                        500,
-                                        500,
-                                        500, 
-                                        10, 
-                                        10, 
-                                        10 );
-            var material        = new THREE.MeshBasicMaterial(
-                                        { color: 0xfffff, 
-                                          wireframe: true });
-            var cube            = new THREE.Mesh( geometry, material );
-            scene.add(  cube    );
-            camera.position.z   = 1000;
 
-            function render() {
-            requestAnimationFrame( render );
-            cube.rotation.x     += 0.01;
-            cube.rotation.y     += 0.01;
-            renderer.render( scene, camera );
-            };
-            render();
-        </script>
-    </body>
+    var scene = new THREE.Scene();
+    var renderer = new THREE.WebGLRenderer();
+    var camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        1,
+        10000);
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+
+    document.body.appendChild(renderer.domElement);
+
+    var geometry = new THREE.BoxGeometry(
+        500,
+        500,
+        500,
+        10,
+        10,
+        10);
+    var material = new THREE.MeshBasicMaterial({
+        color: 0xfffff,
+        wireframe: false,
+        vertexColors: THREE.FaceColors
+    });
+    var cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+    camera.position.z = 1000;
+    targetList.push(cube);
+    projector = new THREE.Projector();
+    document.addEventListener('mousedown', onDocumentMouseDown, false);
+
+    function onDocumentMouseDown(event) {
+        console.log("Click.");
+
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+
+        var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
+        vector.unproject(camera);
+        var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+        var intersects = ray.intersectObjects(targetList);
+        // console.log(intersects)
+
+        if (intersects.length > 0) {
+
+
+            // var geometry = new THREE.BoxGeometry(size, size, size);
+            // for (var i = 0; i < geometry.faces.length; i++) {
+            //     // geometry.faces[i].color.setHex(Math.random() * 0xFF0000);
+            //     intersects[i].face.color.setRGB(0.8 * Math.random() + 0.2, 0, 0);
+            //     intersects[i].object.geometry.colorsNeedUpdate = true;
+            // }
+
+            // var material = new THREE.MeshBasicMaterial({
+            //     color: 0xFF0000,
+            //     vertexColors: THREE.FaceColors
+            // });
+            console.log("Hit @ " + toString(intersects[0].point));
+            intersects[0].face.color.setRGB(0.8 * Math.random() + 0.2, 0, 0);
+            intersects[0].object.geometry.colorsNeedUpdate = true;
+        }
+    }
+
+    function toString(v) {
+        return "[ " + v.x + ", " + v.y + ", " + v.z + " ]";
+    }
+
+
+
+    function render() {
+        requestAnimationFrame(render);
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.02;
+        renderer.render(scene, camera);
+    };
+    render();
+    </script>
+</body>
+
 </html>
