@@ -39,10 +39,8 @@
     var geometry = new THREE.BoxGeometry(
         500,
         500,
-        500,
-        10,
-        10,
-        10);
+        500
+        );
     var material = new THREE.MeshBasicMaterial({
         color: 0xfffff,
         wireframe: false,
@@ -72,20 +70,20 @@
 
 
             // var geometry = new THREE.BoxGeometry(size, size, size);
-            // for (var i = 0; i < geometry.faces.length; i++) {
-            //     // geometry.faces[i].color.setHex(Math.random() * 0xFF0000);
-            //     intersects[i].face.color.setRGB(0.8 * Math.random() + 0.2, 0, 0);
-            //     intersects[i].object.geometry.colorsNeedUpdate = true;
+            // for (var i = 0; i < geometry.faces.length; i++) { 
+            //    geometry.faces[i].color.setHex(0xFF0000);            
             // }
-
+            intersects[0].face.color.setRGB(0.8 * Math.random() + 0.2, 0, 0);
+            intersects[0].object.geometry.colorsNeedUpdate = true;
+            console.log(intersects[0])
+        }
             // var material = new THREE.MeshBasicMaterial({
             //     color: 0xFF0000,
             //     vertexColors: THREE.FaceColors
             // });
-            console.log("Hit @ " + toString(intersects[0].point));
-            intersects[0].face.color.setRGB(0.8 * Math.random() + 0.2, 0, 0);
-            intersects[0].object.geometry.colorsNeedUpdate = true;
-        }
+            // console.log("Hit @ " + toString(intersects[0].point));
+            // intersects[0].face.color.setRGB(0.8 * Math.random() + 0.2, 0, 0);
+            // intersects[0].object.geometry.colorsNeedUpdate = true;
     }
 
     function toString(v) {
