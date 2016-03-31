@@ -2,7 +2,7 @@
 
 <head>
     <title>
-        Face-Pick
+        Three.js app using WebGLRenderer
     </title>
 </head>
 
@@ -13,12 +13,10 @@
     </script>
     <script type="text/javascript" src="assests/javascripts/Projector.js">
     </script>
-     <script src="assests/javascripts/OrbitControls.js"></script>
     <script>
-    var container, scene, camera, renderer, stats;
+    var container, scene, camera, renderer, controls, stats;
     // custom global variables
-    var targetList = [],
-        size = 500;
+    var targetList = [], size = 500;
     var projector, mouse = {
         x: 0,
         y: 0
@@ -39,11 +37,10 @@
     document.body.appendChild(renderer.domElement);
 
     var geometry = new THREE.BoxGeometry(
-        size,
-        size,
-        size
-    );
-    var controls = new THREE.OrbitControls( camera ,renderer.domElement );
+        500,
+        500,
+        500
+        );
     var material = new THREE.MeshBasicMaterial({
         color: 0xfffff,
         wireframe: false,
@@ -71,12 +68,22 @@
 
         if (intersects.length > 0) {
 
+
+            // var geometry = new THREE.BoxGeometry(size, size, size);
+            // for (var i = 0; i < geometry.faces.length; i++) { 
+            //    geometry.faces[i].color.setHex(0xFF0000);            
+            // }
             intersects[0].face.color.setRGB(0.8 * Math.random() + 0.2, .5, 1);
             intersects[0].object.geometry.colorsNeedUpdate = true;
             console.log(intersects[0].face.materialIndex)
-            window.materialIndex = intersects[0].face.materialIndex;
-            console.log(materialIndex)
         }
+            // var material = new THREE.MeshBasicMaterial({
+            //     color: 0xFF0000,
+            //     vertexColors: THREE.FaceColors
+            // });
+            // console.log("Hit @ " + toString(intersects[0].point));
+            // intersects[0].face.color.setRGB(0.8 * Math.random() + 0.2, 0, 0);
+            // intersects[0].object.geometry.colorsNeedUpdate = true;
     }
 
     function toString(v) {
